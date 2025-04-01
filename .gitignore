@@ -1,0 +1,19 @@
+## 自定义
+/MvcTestMovie/bin/
+/MvcTestMovie/bin/*
+/MvcTestMovie/obj/
+/MvcTestMovie/obj/*
+/.idea/
+/.idea/*
+/.git/
+/.git/*
+/.vs/
+/.vs/*
+MvcTestMovie.sln.DotSettings.user
+
+## 默认
+bin/
+obj/
+/packages/
+riderModule.iml
+/_ReSharper.Caches/
