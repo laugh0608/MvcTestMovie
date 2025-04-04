@@ -1,31 +1,20 @@
-using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
-using MvcTestMovie.Models;
+// using System.Text.Encodings.Web;
 
 namespace MvcTestMovie.Controllers;
 
-public class HomeController : Controller
+public class HelloWorldController : Controller
 {
-    private readonly ILogger<HomeController> _logger;
-
-    public HomeController(ILogger<HomeController> logger)
+    // 控制器中的每个 public 方法均可作为 HTTP 终结点调用
+    // GET: /HelloWorld/
+    public string Index()
     {
-        _logger = logger;
+        return "This is my default action...";
     }
-
-    public IActionResult Index()
+    // 
+    // GET: /HelloWorld/Welcome/ 
+    public string Welcome()
     {
-        return View();
-    }
-
-    public IActionResult Privacy()
-    {
-        return View();
-    }
-
-    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-    public IActionResult Error()
-    {
-        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        return "This is the Welcome action method...";
     }
 }
