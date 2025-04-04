@@ -6,10 +6,14 @@ namespace MvcTestMovie.Controllers;
 public class HelloWorldController : Controller
 {
     // 控制器中的每个 public 方法均可作为 HTTP 终结点调用
+    
     // GET: /HelloWorld/
-    public string Index()
+    // 通常返回 IActionResult 或从 ActionResult 派生的类，而不是 string 这样的类型
+    public IActionResult  Index()
     {
-        return "This is my default action...";
+        // return "This is my default action...";
+        
+        return View();
     }
 
     // GET: /HelloWorld/Welcome/ 
