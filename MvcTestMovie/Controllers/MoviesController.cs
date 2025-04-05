@@ -14,17 +14,21 @@ namespace MvcTestMovie.Controllers
     {
         private readonly MvcTestMovieContext _context;
 
+        // 构造函数使用依赖关系注入将数据库上下文 (MvcMovieContext) 注入到控制器中
         public MoviesController(MvcTestMovieContext context)
         {
             _context = context;
         }
 
+        // 调用 List 方法时是如何创建 View 对象，代码将此 Movies 列表从 Index 操作方法传递给视图
         // GET: Movies
         public async Task<IActionResult> Index()
         {
+            // 如果数据上下文的 属性为 null，则代码返回 Movie
             return View(await _context.Movie.ToListAsync());
         }
 
+        // id 参数通常作为路由数据传递
         // GET: Movies/Details/5
         public async Task<IActionResult> Details(int? id)
         {
@@ -33,13 +37,14 @@ namespace MvcTestMovie.Controllers
                 return NotFound();
             }
 
+            // Lambda 表达式会被传入 FirstOrDefaultAsync 方法以选择与路由数据或查询字符串值相匹配的电影实体
             var movie = await _context.Movie
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (movie == null)
             {
                 return NotFound();
             }
-
+            // 如果找到了电影，Movie 模型的实例则会被传递到 Details 视图
             return View(movie);
         }
 
