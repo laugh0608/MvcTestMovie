@@ -27,8 +27,15 @@ public class HelloWorldController : Controller
     //     return HtmlEncoder.Default.Encode($"Hello {name}, NumTimes is: {numTimes}");
     //     // 访问 URL：https://localhost:{PORT}/HelloWorld/Welcome?name=Rick&numtimes=4，输出：Hello Rick, NumTimes is: 4
     // }
-    public string Welcome(string name, int ID = 1)
+    public IActionResult Welcome(string name, int numTimes = 1)
     {
-        return HtmlEncoder.Default.Encode($"Hello {name}, ID: {ID}");
+        // return HtmlEncoder.Default.Encode($"Hello {name}, ID: {ID}");
+        // 更改为使用视图模板，而不是使控制器将此响应呈现为字符串
+        // ViewData 字典是动态对象，任何类型都可以使用
+        //  MVC 模型绑定系统自动将命名参数 name 和 numTimes 从查询字符串映射到方法中的参数
+        ViewData["Message"] = "Hello " + name;
+        ViewData["NumTimes"] = numTimes;
+        return View();
+        
     }
 }
