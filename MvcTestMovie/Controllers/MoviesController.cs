@@ -70,6 +70,7 @@ namespace MvcTestMovie.Controllers
             return View(movie);
         }
 
+        // 提取电影并填充由 Edit.cshtmlRazor 文件生成的编辑表单
         // GET: Movies/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
@@ -86,18 +87,24 @@ namespace MvcTestMovie.Controllers
             return View(movie);
         }
 
+        //  HTTP POST Edit 方法，它会处理已发布的电影值：
+        // [Bind] 特性是防止过度发布的一种方法，只应在 [Bind] 特性中包含想要更改的属性
         // POST: Movies/Edit/5
         // To protect from overposting attacks, enable the specific properties you want to bind to.
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        // HttpPost 特性指定只能为 POST 请求调用此 Edit 方法
         [HttpPost]
+        // ValidateAntiForgeryToken 特性用于防止请求伪造，并与编辑视图文件 (Views/Movies/Edit.cshtml) 中生成的防伪令牌匹配
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
         {
+            // HttpGet Edit 方法采用电影 ID 参数，使用 Entity Framework FindAsync 方法查找电影
+            // 将所选电影返回到“编辑”视图。 如果无法找到电影，则返回 NotFound (HTTP 404)
             if (id != movie.Id)
             {
                 return NotFound();
             }
-
+            
             if (ModelState.IsValid)
             {
                 try
