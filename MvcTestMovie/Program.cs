@@ -1,6 +1,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using MvcTestMovie.Data;
+using MvcTestMovie.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 // 中间件注入
@@ -11,6 +12,14 @@ builder.Services.AddDbContext<MvcTestMovieContext>(options =>
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
+
+// 数据库种子与初始值设置
+using (var scope = app.Services.CreateScope())
+{
+    var services = scope.ServiceProvider;
+
+    SeedData.Initialize(services);
+}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
