@@ -22,10 +22,52 @@ namespace MvcTestMovie.Controllers
 
         // 调用 List 方法时是如何创建 View 对象，代码将此 Movies 列表从 Index 操作方法传递给视图
         // GET: Movies
-        public async Task<IActionResult> Index()
+        // public async Task<IActionResult> Index()
+        // {
+        //     // 如果数据上下文的 属性为 null，则代码返回 Movie
+        //     return View(await _context.Movie.ToListAsync());
+        // }
+        // 将向 Index 操作方法添加搜索功能
+        // GET: Movies
+        public async Task<IActionResult> Index(string movieGenre, string searchString)
         {
-            // 如果数据上下文的 属性为 null，则代码返回 Movie
-            return View(await _context.Movie.ToListAsync());
+            if (_context.Movie == null)
+            {
+                return Problem("Entity set 'MvcMovieContext.Movie'  is null.");
+            }
+
+            // Use LINQ to get list of genres.
+            IQueryable<string> genreQuery = from m in _context.Movie
+                orderby m.Genre
+                select m.Genre;
+            var movies = from m in _context.Movie
+                select m;
+
+            if (!string.IsNullOrEmpty(searchString))
+            {
+                movies = movies.Where(s => s.Title!.ToUpper().Contains(searchString.ToUpper()));
+            }
+
+            if (!string.IsNullOrEmpty(movieGenre))
+            {
+                movies = movies.Where(x => x.Genre == movieGenre);
+            }
+
+            var movieGenreVM = new MovieGenreViewModel
+            {
+                Genres = new SelectList(await genreQuery.Distinct().ToListAsync()),
+                Movies = await movies.ToListAsync()
+            };
+
+            return View(movieGenreVM);
+        }
+
+        //  即使具备 HttpGet Index 方法，搜索也将转到 HttpPost Index 操作方法
+        // notUsed 参数用于创建 Index 方法的重载
+        [HttpPost]
+        public string Index(string searchString, bool notUsed)
+        {
+            return "From [HttpPost]Index: filter on " + searchString;
         }
 
         // id 参数通常作为路由数据传递

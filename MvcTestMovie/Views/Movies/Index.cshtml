@@ -1,4 +1,5 @@
-@model IEnumerable<MvcTestMovie.Models.Movie>
+@* @model IEnumerable<MvcTestMovie.Models.Movie> *@
+@model MvcTestMovie.Models.MovieGenreViewModel
 
 @{
     ViewData["Title"] = "Index";
@@ -10,26 +11,46 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+
+<form asp-controller="Movies" asp-action="Index" method="get">
+    <p>
+        <select asp-for="MovieGenre" asp-items="Model.Genres">
+            <option value="">All</option>
+        </select>
+        
+        @* <label>Title: <input type="text" name="SearchString"/></label> *@
+        <label>Title: <input type="text" asp-for="SearchString" /></label>
+        <input type="submit" value="Filter"/>
+    </p>
+</form>
+
 <table class="table">
     <thead>
         <tr>
             <th>
-                @Html.DisplayNameFor(model => model.Title)
+                @* DisplayNameFor HTML 帮助程序检查 Lambda 表达式中引用的 Title 属性来确定显示名称 *@
+                @* @Html.DisplayNameFor(model => model.Title) *@
+                @Html.DisplayNameFor(model => model.Movies![0].Title)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.ReleaseDate)
+                @* @Html.DisplayNameFor(model => model.ReleaseDate) *@
+                @Html.DisplayNameFor(model => model.Movies![0].ReleaseDate)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Genre)
+                @* @Html.DisplayNameFor(model => model.Genre) *@
+                @Html.DisplayNameFor(model => model.Movies![0].Genre)
             </th>
             <th>
-                @Html.DisplayNameFor(model => model.Price)
+                @* @Html.DisplayNameFor(model => model.Price) *@
+                @Html.DisplayNameFor(model => model.Movies![0].Price)
             </th>
             <th></th>
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+@* @foreach (var item in Model) *@
+@foreach (var item in Model.Movies!)
+{
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Title)
