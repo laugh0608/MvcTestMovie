@@ -101,7 +101,7 @@ namespace MvcTestMovie.Controllers
         // For more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
+        public async Task<IActionResult> Create([Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             if (ModelState.IsValid)
             {
@@ -138,7 +138,7 @@ namespace MvcTestMovie.Controllers
         [HttpPost]
         // ValidateAntiForgeryToken 特性用于防止请求伪造，并与编辑视图文件 (Views/Movies/Edit.cshtml) 中生成的防伪令牌匹配
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price")] Movie movie)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Title,ReleaseDate,Genre,Price,Rating")] Movie movie)
         {
             // HttpGet Edit 方法采用电影 ID 参数，使用 Entity Framework FindAsync 方法查找电影
             // 将所选电影返回到“编辑”视图。 如果无法找到电影，则返回 NotFound (HTTP 404)

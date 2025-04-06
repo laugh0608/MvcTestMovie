@@ -1,5 +1,4 @@
 using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MvcTestMovie.Models;
@@ -20,4 +19,7 @@ public class Movie
     // 使 Entity Framework Core 能将 Price 正确地映射到数据库中的货币
     [Column(TypeName = "decimal(18, 2)")]
     public decimal Price { get; set; }
+    
+    // 添加分级字段
+    public string? Rating {  get; set; }
 }
